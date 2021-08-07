@@ -24,4 +24,5 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
+    long_description = "Made on top of the orginal gspread Python API Wrapper, this wrapper (wrapper of a wrapper) targets at specific use cases such as returning row after finding column for a value. You'll get it if you use it. Development is open source and you can also request for features by opening an issue in Github."
 )
