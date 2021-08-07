@@ -8,7 +8,7 @@ setup(
     author = 'FishballNoodles',
     author_email = 'joelkhorxw@gmail.com',
     url = 'https://github.com/TheReaper62/GSpread-Plus',
-    download_url = 'https://github.com/user/reponame/archive/v_01.tar.gz',
+    download_url = 'https://github.com/TheReaper62/GSpread-Plus/archive/refs/tags/v0.1.tar.gz',
     keywords = ['Google Spreadsheets', 'Sheets', 'Sheetsv4','Python 3+','google-spreadsheets','spreadsheets'],
     install_requires= [
         'oauth2client',
