@@ -48,13 +48,26 @@ class Spreadclient:
             self.listed = self.sheet.get_all_values()
 
     def refresh_sheet(self):
-        self.listed = sheet.get_all_values()
+        self.listed = self.sheet.get_all_values()
 
     def search_rowbycolumn(self,value,column="A",mode="static"):
         if self.sheet == None:
             raise InvalidMethod("No Sheet Specified")
             return
-        if type(column)==str:
+
+        if mode == "dynamic":
+            self.listed = self.sheet.get_all_values()
+        elif mode == "static":
+            pass
+        else:
+            raise InvalidMethod("Methods Available: 'dynamic' 'static'")
+
+        if str(column).startswith("-"):
+            if column[1:] not in self.listed[0]:
+                raise NotFound(f"Headername '{column[1:]}' not found")
+                return
+            col_index = self.listed[0].index(column[1:])+1
+        elif type(column)==str:
             col_index = gspread.utils.a1_to_rowcol(f"{column}1")[0]
         elif column>0 and type(column)==int:
             col_index = column
@@ -63,18 +76,11 @@ class Spreadclient:
         else:
             raise InvalidMethod("Invalid Column identifier")
 
-        if mode == "dynamic":
-            self.listed = self.sheet.get_all_values()
-        elif mode == "static":
-            pass
-        else:
-            raise InvalidMethod("Methods Available: 'dynamic' 'static'")
-
         active_col = [i[col_index] for i in self.listed]
         if value in active_col:
             return self.listed[active_col.index(value)]
 
-    def search_listed(self,value,mode="static"):
+    def search_listed(self,value,mode="static",limits=None):
         if mode == "dynamic":
             self.listed = self.sheet.get_all_values()
         elif mode == "static":
@@ -82,10 +88,26 @@ class Spreadclient:
         else:
             raise InvalidMethod("Methods Available: 'dynamic' 'static'")
 
-        for i in self.listed:
-            if value in i:
-                return [self.listed.index(i)+1,i.index(value)+1]
-                return None
+        if limits==None:
+            for i in self.listed:
+                if value in i:
+                    return [self.listed.index(i)+1,i.index(value)+1]
+            return None
+        else:
+            if limits.startswith("-"):
+                if limits not in self.listed[0]:
+                    raise NotFound("Headername not found")
+                    return
+                col_index = self.listed[0].index(limits)+1
+            elif limits.isalpha():
+                row,col_index = gspread.utils.a1_to_rowcol(f"{limits}1")
+            else:
+                raise InvalidMethod("Invalid Limit")
+
+            to_check = [i[col_index-1] for i in self.listed]
+            if value in to_check:
+                return to_check.index(value)+1
+            return None
 
     def append_toupdate(self,position,value):
         # Syntax: new row F dynamic
@@ -103,7 +125,46 @@ class Spreadclient:
         element = gspread.models.Cell(row=row,col=col,value=value)
         self.to_update.append(element)
 
+    def append_row_toupdate(self,row,values):
+        # Syntax: new row dynamic
+        if str(row).startswith("new row"):
+            if row.endswith("dynamic"):
+                row = len(self.sheet.col_values(1))+1
+            elif row.endswith("static"):
+                row = len(self.listed)+1
+            else:
+                raise InvalidMethod("Mode Not Stated. Example: 'new row dynamic'")
+
+        for i in range(len(values)):
+            self.to_update.append(gspread.models.Cell(row=row,col=i+1,value=values[i]))
+
     def push_toupdate(self):
         self.sheet.update_cells(self.to_update)
         self.listed = self.sheet.get_all_values()
         self.to_update = []
+
+    def a1_rowcol_convert(self,value,to):
+        if to=="rowcol":
+            return gspread.utils.a1_to_rowcol(value)
+        elif to=="a1":
+            return gspread.utils.rowcol_to_a1(value)
+        else:
+            raise InvalidMethod("Available Methods: 'rowcol' 'a1'")
+
+    def get_header_pos(self,headername,mode="static"):
+        if mode == "dynamic":
+            self.listed = self.sheet.get_all_values()
+        elif mode == "static":
+            pass
+        else:
+            raise InvalidMethod("Methods Available: 'dynamic' 'static'")
+
+        if headername not in self.listed[0]:
+            raise NotFound(f"Headername '{headername}' not found")
+            return
+        col_index = self.listed[0].index(headername)+1
+        return col_index
+
+    def delete_row_existence(self,row):
+        self.sheet.delete_row(row)
+        self.listed = self.sheet.get_all_values()
