@@ -7,21 +7,30 @@ class InvalidMethod(Exception):
     pass
 
 class Spreadclient:
-    def __init__(self,credentials):
-        creds = ServiceAccountCredentials.from_json_keyfile_name(credentials, ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive'])
+    def __init__(self,credentials,cred_type="file"):
+        scopes = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+        if cred_type=="file":
+            creds = ServiceAccountCredentials.from_json_keyfile_name(credentials, scopes)
+        elif cred_type == "dict":
+            creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scopes)
         self.client = gspread.authorize(creds)
         self.spread = None
         self.sheet = None
 
     def connect_document(self,identifier,method='key'):
-        if method.lower() == 'key':
-            self.spread = self.client.open_by_key(identifier)
-        elif method.lower() == 'name':
-            self.spread = self.client.open(identifier)
-        elif method.lower() == 'url':
-            self.spread = self.client.open_by_url(identifier)
-        else:
-            raise InvalidMethod("Methods available: 'key' 'name' 'url'")
+        try:
+            if method.lower() == 'key':
+                self.spread = self.client.open_by_key(identifier)
+            elif method.lower() == 'name':
+                self.spread = self.client.open(identifier)
+            elif method.lower() == 'url':
+                self.spread = self.client.open_by_url(identifier)
+            else:
+                raise InvalidMethod("Methods available: 'key' 'name' 'url'")
+        except InvalidMethod:
+            pass
+        except:
+            raise NotFound("Document Key cannot be found")
         self.listed = None
         self.sheet = None
         self.to_update = []
@@ -78,7 +87,8 @@ class Spreadclient:
 
         active_col = [i[col_index] for i in self.listed]
         if value in active_col:
-            return self.listed[active_col.index(value)]
+            return self.listed[active_col.index(value)],active_col.index(value)+1
+        return []
 
     def search_listed(self,value,mode="static",limits=None):
         if mode == "dynamic":
@@ -119,7 +129,7 @@ class Spreadclient:
 
         elif str(position[0]).isalpha() and str(position[-1]).isdigit():
             a1_not = position
-        elif len(position)==2 and type(position[0]) and type(position[1]):
+        elif len(position)==2 and type(position[0])==int and type(position[1])==int:
             a1_not = gspread.utils.rowcol_to_a1(position[0],position[1])
         row,col = gspread.utils.a1_to_rowcol(a1_not)
         element = gspread.models.Cell(row=row,col=col,value=value)
@@ -134,20 +144,26 @@ class Spreadclient:
                 row = len(self.listed)+1
             else:
                 raise InvalidMethod("Mode Not Stated. Example: 'new row dynamic'")
+        else:
+            raise InvalidMethod("Invalid Row Reference")
 
         for i in range(len(values)):
             self.to_update.append(gspread.models.Cell(row=row,col=i+1,value=values[i]))
 
     def push_toupdate(self):
-        self.sheet.update_cells(self.to_update)
-        self.listed = self.sheet.get_all_values()
-        self.to_update = []
+        try:
+            self.sheet.update_cells(self.to_update)
+            self.listed = self.sheet.get_all_values()
+            self.to_update = []
+        except Exception as e:
+            return False, e
+        return True,"Good"
 
     def a1_rowcol_convert(self,value,to):
         if to=="rowcol":
             return gspread.utils.a1_to_rowcol(value)
         elif to=="a1":
-            return gspread.utils.rowcol_to_a1(value)
+            return gspread.utils.rowcol_to_a1(value[0],value[1])
         else:
             raise InvalidMethod("Available Methods: 'rowcol' 'a1'")
 
