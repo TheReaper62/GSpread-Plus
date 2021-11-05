@@ -85,10 +85,10 @@ class Spreadclient:
         else:
             raise InvalidMethod("Invalid Column identifier")
 
-        active_col = [i[col_index] for i in self.listed]
+        active_col = [i[col_index-1] for i in self.listed]
         if value in active_col:
             return self.listed[active_col.index(value)],active_col.index(value)+1
-        return []
+        return [],None
 
     def search_listed(self,value,mode="static",limits=None):
         if mode == "dynamic":
@@ -131,6 +131,8 @@ class Spreadclient:
             a1_not = position
         elif len(position)==2 and type(position[0])==int and type(position[1])==int:
             a1_not = gspread.utils.rowcol_to_a1(position[0],position[1])
+        else:
+            print("No Mode DETECTED",position,value)
         row,col = gspread.utils.a1_to_rowcol(a1_not)
         element = gspread.models.Cell(row=row,col=col,value=value)
         self.to_update.append(element)
