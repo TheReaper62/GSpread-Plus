@@ -1,1 +1,1 @@
-from GSpreadPlus.gspreadplus import Spreadclient
+from .gspreadplus import *

@@ -1,0 +1,2 @@
+class IdentificationError(Exception):
+    pass
