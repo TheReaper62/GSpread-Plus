@@ -64,10 +64,11 @@ client.connect_sheet(0)
 1. Orientation - `orientation`
     - If you are treating the spreadsheet like a database, you can set the `orientation` to either `'vertical'`*(default)* or `'horizontal'`
     - This will automatically get the headers depending on the orientation
-
+    - If the data is propagating `vertical`ly, that would be the orientation
+;
 2. Headers Depth - `headers_depth`
     - If your databases have headers that are not starting from the first row/column you can change the depth
-    - For example if your headers are at row 3 the headers depth would be `3`
+    - For example if your headers are at row 3, the headers depth would be `3`
 ```py
 client.connect_sheet(
     'Monkey Employees',
@@ -84,9 +85,11 @@ Accessing the `listed` and `headers` attribute will gain access to their respect
 `headers` returns the headers based on the `orientation`
 
 ### Refreshing:
-Refreshing the data wills end a request to the server for the new data and will push new local commits(changes).
+Refreshing the data will send a request to the server for the new data and will push new local commits(changes).
 
-Do Note that refreshing will overwrite `listed` and it will overwrite the spreadsheet regardless of the state. In essence, we are assuming dathe spreadsheet data doesn't get changed before the refresh
+Do note that refreshing will overwrite `listed` and it will overwrite the live spreadsheet regardless of its state.
+
+In essence, we are assuming the live spreadsheet data doesn't get changed between the last fetched data and that instance.
 ```py
 client.refresh_sheet()
 
@@ -104,7 +107,7 @@ Since this package is for sheets that work/act as databases, the following funct
 >### Included Refreshing
 >For ALL query functions, and optional parameter `refresh=False` is available.
 >
->When set to `True`, `self.refresh_sheet()` will be invoked before executing the main function
+>When set to `True`, `self.refresh_sheet()` will be invoked before executing the relevant function
 
 ******
 ### A. Get Row by Column
