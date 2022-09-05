@@ -146,7 +146,7 @@ class Spreadclient:
         return index # Pythonic Indexing
 
     @requirements_exists('*')
-    def commit_new_row(self, values: Union[list,dict], offset:int=0, refresh=True)->list[gspread.models.Cell]:
+    def commit_new_row(self, values: Union[list,dict], offset:int=0, refresh=True)->list[gspread.cell.Cell]:
         '''
         Parameters:
         - values
@@ -165,19 +165,19 @@ class Spreadclient:
         old_commits = set(self.commits.copy())
         if isinstance(values,list):
             for i in range(len(values)):
-                self.commits.append(gspread.models.Cell(row=new_row_no+1,col=i+1+offset,value=values[i]))
+                self.commits.append(gspread.cell.Cell(row=new_row_no+1,col=i+1+offset,value=values[i]))
         elif isinstance(values,dict):
             headers = self.headers
             assert headers[offset:]!=[], f'Headers Row Empty (offset={offset})'
             for k,v in values.items():
                 if k in headers[offset:]:
-                    self.commits.append(gspread.models.Cell(row=new_row_no+1,col=headers[offset:].index(k)+1,value=v))
+                    self.commits.append(gspread.cell.Cell(row=new_row_no+1,col=headers[offset:].index(k)+1,value=v))
                 else:
                     print(f"Dict key <{k}> could not be found in headers...skipping...")
         return [x for x in set(self.commits) if x not in old_commits]
         
     @requirements_exists('*')
-    def commit_new_column(self, values: Union[list,dict], offset:int=0, refresh=True)->list[gspread.models.Cell]:
+    def commit_new_column(self, values: Union[list,dict], offset:int=0, refresh=True)->list[gspread.cell.Cell]:
         '''
         Parameters:
         - values
@@ -196,13 +196,13 @@ class Spreadclient:
         old_commits = set(self.commits.copy())
         if isinstance(values,list):
             for i in range(len(values)):
-                self.commits.append(gspread.models.Cell(row=i+1+offset,col=new_col_no+1,value=values[i]))
+                self.commits.append(gspread.cell.Cell(row=i+1+offset,col=new_col_no+1,value=values[i]))
         elif isinstance(values,dict):
             headers = self.headers
             assert headers[offset:]!=[], f'Headers Column Empty (offset={offset})'
             for k,v in values.items():
                 if k in headers[offset:]:
-                    self.commits.append(gspread.models.Cell(row=headers[offset:].index(k)+1,col=new_col_no+1,value=v))
+                    self.commits.append(gspread.cell.Cell(row=headers[offset:].index(k)+1,col=new_col_no+1,value=v))
                 else:
                     print(f"Dict key <{k}> could not be found in headers...skipping...")
         return [x for x in set(self.commits) if x not in old_commits]
@@ -216,7 +216,7 @@ class Spreadclient:
         active_row_index = self.listed.index(active_row) # Pythonic
         for k,v in data.items():
             if k in self.headers and active_row[self.get_header_index(k,refresh=refresh)]!=v:
-                self.commits.append(gspread.models.Cell(row=self.get_header_index(k,refresh=refresh),col=active_row_index,value=v))
+                self.commits.append(gspread.cell.Cell(row=self.get_header_index(k,refresh=refresh),col=active_row_index,value=v))
                 
     def convert_notation(self,value:Union[str,tuple,list]):
         if isinstance(str):
