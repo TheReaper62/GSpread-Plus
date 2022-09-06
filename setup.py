@@ -2,13 +2,13 @@ from distutils.core import setup
 setup(
     name = 'GSpreadPlus',
     packages = ['GSpreadPlus'],
-    version = '0.4.1',
+    version = '0.4.2',
     license='MIT',
     description = 'Specific Use Cases for Gspread Wrapper',
     author = 'FishballNoodles',
     author_email = 'joelkhorxw@gmail.com',
     url = 'https://github.com/TheReaper62/GSpread-Plus',
-    download_url = 'https://github.com/TheReaper62/GSpread-Plus/archive/refs/tags/v0.4.1.tar.gz',
+    download_url = 'https://github.com/TheReaper62/GSpread-Plus/archive/refs/tags/v0.4.2.tar.gz',
     keywords = ['Google Spreadsheets', 'Sheets', 'Sheetsv4','Python 3+','google-spreadsheets','spreadsheets'],
     install_requires= [
         'oauth2client',

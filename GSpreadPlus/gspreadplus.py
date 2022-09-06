@@ -174,7 +174,7 @@ class Spreadclient:
                     self.commits.append(gspread.cell.Cell(row=new_row_no+1,col=headers[offset:].index(k)+1,value=v))
                 else:
                     print(f"Dict key <{k}> could not be found in headers...skipping...")
-        return [x for x in set(self.commits) if x not in old_commits]
+        return [x for x in [i for i in self.commits if self.commits.count(i)>1] if x not in old_commits]
         
     @requirements_exists('*')
     def commit_new_column(self, values: Union[list,dict], offset:int=0, refresh=True)->list[gspread.cell.Cell]:
