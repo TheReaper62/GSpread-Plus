@@ -40,6 +40,7 @@ class Spreadclient:
         self.document = None
         self.sheet = None
         self.listed = None
+        self.verlisted = None
         self.commits = []
 
     @requirements_exists('client')
@@ -51,12 +52,13 @@ class Spreadclient:
                 if self.document == None:
                     raise Exception("Document Not Found")
                 break
-            except:
+            except Exception as e:
                 pass
         else:
-            raise Exception("Document identifier did not fit one of the formats (key,name,url)")
+            raise Exception(f"Document identifier did not fit one of the formats (key,name,url)")
 
         self.listed = None
+        self.verlisted = None
         self.sheet = None
         self.commits = []
 
@@ -84,6 +86,7 @@ class Spreadclient:
             self.sheet.update_cells(self.commits)
             self.commits = []
         self.listed = self.sheet.get_all_values()
+        self.verlisted = list(map(list, zip(*self.listed)))
 
     @requirements_exists('*')
     def get_row_by_column(self, value: Union[str, int], column: Union[str, int] = 0, refresh: bool = False)->list[Any]:
@@ -210,13 +213,13 @@ class Spreadclient:
     @requirements_exists('*')
     def update_vertical_data(self, data: dict[str,Any], primary_key: str, refresh: bool = False):
         assert isinstance(data,dict), f"data should be type <'dict'> not {type(data)}"
-        active_row = self.get_row_by_column(data[primary_key], self.get_header_index(data[primary_key],refresh=refresh),refresh=refresh)
+        active_row = self.get_row_by_column(data[primary_key], self.get_header_index(primary_key,refresh=refresh),refresh=refresh)
         if active_row == None:
             raise IdentificationError(f'Primary Key ({primary_key}) could not be identified/found')
         active_row_index = self.listed.index(active_row) # Pythonic
         for k,v in data.items():
             if k in self.headers and active_row[self.get_header_index(k,refresh=refresh)]!=v:
-                self.commits.append(gspread.cell.Cell(row=self.get_header_index(k,refresh=refresh),col=active_row_index,value=v))
+                self.commits.append(gspread.cell.Cell(col=self.get_header_index(k,refresh=refresh)+1,row=active_row_index+1,value=v))
                 
     def convert_notation(self,value:Union[str,tuple,list]):
         if isinstance(str):
