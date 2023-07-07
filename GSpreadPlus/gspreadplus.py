@@ -149,16 +149,16 @@ class Spreadclient:
         return index # Pythonic Indexing
 
     @requirements_exists('*')
-    def commit_new_row(self, values: Union[list,dict], offset:int=0, refresh=True)->list[gspread.cell.Cell]:
+    def commit_new_row(self, values: Union[list,tuple,dict], offset: int = 0, refresh: bool = True)->list[gspread.cell.Cell]:
         '''
         Parameters:
         - values
-            Either a list or dictonary
+            Either a list, tuple or dictonary
             A list would be updated in the given order
             A dict would be updated based on the header of the column that corresponds with the dict key
         - offset
             The number of columns to skip from the left before placing the data
-            For by headers method, these columns will not be checked
+            For by headers method(dict), these columns will not be checked
         - refresh
             The nature of this method defaults this parameter to True
         '''
@@ -166,7 +166,7 @@ class Spreadclient:
             self.refresh_sheet()
         new_row_no = len(self.listed)
         old_commits = set(self.commits.copy())
-        if isinstance(values,list):
+        if isinstance(values,(list, tuple)):
             for i in range(len(values)):
                 self.commits.append(gspread.cell.Cell(row=new_row_no+1,col=i+1+offset,value=values[i]))
         elif isinstance(values,dict):
@@ -179,17 +179,55 @@ class Spreadclient:
                     print(f"Dict key <{k}> could not be found in headers...skipping...")
         return [x for x in [i for i in self.commits if self.commits.count(i)>1] if x not in old_commits]
         
-    @requirements_exists('*')
-    def commit_new_column(self, values: Union[list,dict], offset:int=0, refresh=True)->list[gspread.cell.Cell]:
+    def commit_new_multiple_rows(self, values: Union[list[list],list[dict]], offset: int = 0, refresh: bool = True)->list[gspread.cell.Cell]:
         '''
         Parameters:
         - values
-            Either a list or dictonary
+            A list of either a list, tuple or dictonary
             A list would be updated in the given order
             A dict would be updated based on the header of the column that corresponds with the dict key
         - offset
             The number of columns to skip from the left before placing the data
-            For by headers method, these columns will not be checked
+            For by headers method(dict), these columns will not be checked
+        - refresh
+            The nature of this method defaults this parameter to True
+        '''
+        if refresh:
+            self.refresh_sheet()
+        new_row_no = len(self.listed)
+        old_commits = set(self.commits.copy())
+        internal_offset = 0
+        if isinstance(values[0],(list, tuple)):
+            for item in values:
+                for i in range(len(item)):
+                    # input(str(item)+str(i))
+                    self.commits.append(gspread.cell.Cell(row=new_row_no+internal_offset+1,col=i+1+offset,value=item[i]))
+                internal_offset += 1
+        elif isinstance(values[0],dict):
+            headers = self.headers
+            assert headers[offset:]!=[], f'Headers Row Empty (offset={offset})'
+            for item in values:
+                for k,v in item.items():
+                    if k in headers[offset:]:
+                        self.commits.append(gspread.cell.Cell(row=new_row_no+internal_offset+1,col=headers[offset:].index(k)+1,value=v))
+                    else:
+                        print(f"Dict key <{k}> could not be found in headers...skipping...")
+                internal_offset += 1
+        if refresh:
+            self.refresh_sheet()
+        return [x for x in [i for i in self.commits if self.commits.count(i)>1] if x not in old_commits]
+        
+    @requirements_exists('*')
+    def commit_new_column(self, values: Union[list,tuple,dict], offset: int = 0, refresh: bool = True)->list[gspread.cell.Cell]:
+        '''
+        Parameters:
+        - values
+            Either a list, tuple or dictonary
+            A list would be updated in the given order
+            A dict would be updated based on the header of the column that corresponds with the dict key
+        - offset
+            The number of columns to skip from the left before placing the data
+            For by headers method(dict), these columns will not be checked
         - refresh
             The nature of this method defaults this parameter to True
         '''
@@ -197,7 +235,7 @@ class Spreadclient:
             self.refresh_sheet()
         new_col_no = len(self.listed[0])
         old_commits = set(self.commits.copy())
-        if isinstance(values,list):
+        if isinstance(values,(list, tuple)):
             for i in range(len(values)):
                 self.commits.append(gspread.cell.Cell(row=i+1+offset,col=new_col_no+1,value=values[i]))
         elif isinstance(values,dict):
