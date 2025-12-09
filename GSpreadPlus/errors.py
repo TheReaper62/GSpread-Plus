@@ -1,2 +1,0 @@
-class IdentificationError(Exception):
-    pass

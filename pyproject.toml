@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "setuptools_scm>=6.2"] # setuptools and its SCM plugin
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "GSpreadPlus"
+version = "0.4.8"
+license = { file = "LICENSE" }
+authors = [
+    {name = "FishballNoodles", email = "joelkhorxw@gmail.com"},
+]
+description = "A high-level wrapper library for Google Sheets API v4"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+keywords = ['Google Spreadsheets', 'Sheets', 'Sheetsv4','Python 3+','google-spreadsheets','spreadsheets']
+dependencies = [
+    "gspread==6.2.0",
+    "oauth2client==4.1.3"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
