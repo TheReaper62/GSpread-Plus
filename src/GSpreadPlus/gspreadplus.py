@@ -7,12 +7,12 @@ License: MIT License
 '''
 
 from __future__ import annotations
-from typing import Union, Optional, Callable, Any
+from typing import Optional, Callable, Any, Literal
 
-from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 
 from .errors import IdentificationError, SetupError
+from .types import SheetOrientation, RowColNotation
 
 __all__ = (
     'Spreadclient',
@@ -37,24 +37,24 @@ def requirements_exists(*requirements):
 
 class Spreadclient:
     '''The base GSpreadPlus Client to interact with Google Sheets'''
-    def __init__(self, credentials: Union[str,dict[str,str]]):
-        scopes = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-        # Name of Credentials File (.json)
-        if isinstance(credentials,str):
-            creds = ServiceAccountCredentials.from_json_keyfile_name(credentials, scopes)
-        # Dictionary of Credentials
-        elif isinstance(credentials,dict):
-            creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials, scopes)
+    def __init__(self, credentials: str | dict[str,str]):
+        if isinstance(credentials,str):     # Name of Credentials File (.json)
+            self.client = gspread.service_account(filename = credentials)
+        elif isinstance(credentials,dict):  # Dictionary of Credentials
+            self.client = gspread.service_account_from_dict(credentials)
         else:
+            self.client = None
             raise SetupError(f"Invalid Credentials of type '{type(credentials)}'")
-        self.client = gspread.authorize(creds)
-        self.document = None
-        self.sheet = None
-        self.listed = None
-        self.verlisted = None
-        self.commits = []
-        self.orientation = None
-        self.header_depth = None
+
+        self.document: Optional[gspread.models.Spreadsheet] = None
+        self.sheet: Optional[gspread.models.Worksheet] = None
+        self.listed: Optional[list[list[Any]]] = None
+        self.verlisted: Optional[list[list[Any]]] = None
+        self.blocklisted: Optional[dict[str, [list[list[Any]]]]] = None
+        self.commits: list[gspread.models.Cell] = []
+        self.orientation: SheetOrientation = 'vertical'
+        self.header_depth: int = 0
+        self.block_width: int = 0
 
 
     @requirements_exists('client')
@@ -72,14 +72,19 @@ class Spreadclient:
 
         self.listed = None
         self.verlisted = None
+        self.blocklisted = None 
         self.sheet = None
         self.commits = []
-        self.orientation = None
-        self.header_depth = None
+        self.orientation = 'vertical'
+        self.header_depth = 0
+        self.block_width = 0
 
     @requirements_exists('client','document')
     def connect_sheet(
-        self, identifier: str="Sheet1", orientation: str='vertical', header_depth: int=1
+        self, identifier: str="Sheet1",
+        orientation: str='vertical',
+        header_depth: int=1,
+        block_width: int=0
     ) -> None:
         '''Connect to sheet within the connected document by name or index'''
         if isinstance(identifier,str):
@@ -90,7 +95,19 @@ class Spreadclient:
             identifier = f"Index < {identifier} >"
 
         self.orientation = orientation
+        assert self.orientation in ['vertical','horizontal'], (
+            f"orientation <{self.orientation}> not supported, either 'vertical' or 'horizontal'"
+        )
+
         self.header_depth = header_depth
+        assert isinstance(self.header_depth,int) and self.header_depth>0, (
+            f"header_depth <{self.header_depth}> must be a positive integer"
+        )
+
+        self.block_width = block_width
+        assert isinstance(self.block_width,int) and self.block_width>=0, (
+            f"block_width <{self.block_width}> must be a positive integer or 0 to disable"
+        )
 
         if self.sheet is None:
             raise IdentificationError(f"Sheet with the {identifier} Not Found")
@@ -109,7 +126,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def get_row_by_column(
-        self, value: Union[str,int], column: Union[str, int]=0, refresh: bool=False
+        self, value: str | int, column: str | int=0, refresh: bool=False
     ) -> list[Any]:
         '''Get the first row that matches the value in the specified column'''
         if refresh:
@@ -139,7 +156,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def get_column_by_row(
-        self, value: Union[str, int], row: int=0, refresh: bool=False
+        self, value: str | int, row: int=0, refresh: bool=False
     ) -> list[Any]:
         '''Get the first column that matches the value in the specified row'''
         if refresh:
@@ -153,7 +170,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def get_dime_by_header(
-        self, value: Union[str, int], header: Union[str, int], refresh: bool=False
+        self, value: str | int, header: str | int, refresh: bool=False
     ) -> Optional[list[Any]]:
         '''Get the first row/column that matches the value in the specified header'''
         if refresh:
@@ -170,7 +187,34 @@ class Spreadclient:
             return None
 
     @requirements_exists('*')
-    def get_header_index(self, header: Union[str, int], refresh: bool = False) -> int:
+    def get_block_by_id(self, identifier: str | int) -> list[list[Any]]:
+        '''Get a block of data by its identifier'''
+        if self.block_width == 0:
+            raise SetupError("Block Width is not set, cannot get block by ID")
+        if isinstance(identifier, str):
+            headers = self.headers
+            if identifier in headers:
+                start_index = headers.index(identifier)
+            else:
+                raise IdentificationError(
+                    f"Block Identifier with name '{identifier}', depth '{self.header_depth}' in "
+                    f"{self.orientation} orientation not found\nHeaders starting with: "
+                    f"[{headers[0]},..."
+                )
+        elif isinstance(identifier, int):
+            start_index = identifier
+        else:
+            raise TypeError(f"Invalid Block Identifier of type '{type(identifier)}'")
+        end_index = start_index + self.block_width
+        block = []
+        if self.orientation == 'vertical':
+            block = [row[start_index:end_index] for row in self.listed]
+        elif self.orientation == 'horizontal':
+            block = [self.verlisted[i][start_index:end_index] for i in range(len(self.verlisted))]
+        return block
+
+    @requirements_exists('*')
+    def get_header_index(self, header: str | int, refresh: bool = False) -> int:
         '''Get the index of the specified header'''
         if refresh:
             self.refresh_sheet()
@@ -185,7 +229,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def commit_new_row(
-        self, values: Union[list,tuple,dict], offset: int=0, refresh: bool=True
+        self, values: list | tuple | dict, offset: int=0, refresh: bool=True
     ) -> list[gspread.cell.Cell]:
         '''
         Parameters:
@@ -222,7 +266,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def commit_new_multiple_rows(
-        self, values: Union[list[list],list[dict]], offset: int=0, refresh: bool=True
+        self, values: list[list], offset: int=0, refresh: bool=True
     ) -> list[gspread.cell.Cell]:
         '''
         Parameters:
@@ -269,7 +313,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def commit_new_column(
-        self, values: Union[list,tuple,dict], offset: int=0, refresh: bool=True
+        self, values: list | tuple | dict, offset: int=0, refresh: bool=True
     ) -> list[gspread.cell.Cell]:
         '''
         Parameters:
@@ -305,8 +349,8 @@ class Spreadclient:
         return [x for x in set(self.commits) if x not in old_commits]
 
     @requirements_exists('*')
-    def update_vertical_data(self, data: dict[str,Any], primary_key: str, refresh: bool=False):
-        '''Refreshes and updates a column based on the primary key provided'''
+    def update_horizontal_entry(self, data: dict[str,Any], primary_key: str, refresh: bool=False):
+        '''Updates a row (in a vertical data) based on the primary key provided'''
         assert isinstance(data,dict), f"data should be type <'dict'> not {type(data)}"
         active_row = self.get_row_by_column(
             data[primary_key], self.get_header_index(primary_key,refresh=refresh), refresh=refresh
@@ -319,8 +363,8 @@ class Spreadclient:
                 self.commits.append(gspread.cell.Cell(
                     col=self.get_header_index(k,refresh=refresh)+1,row=active_row_index+1,value=v
                 ))
-
-    def convert_notation(self, value: Union[str,tuple,list]):
+    
+    def convert_notation(self, value: str | tuple | list):
         '''Util to convert between A1 Notation and [row,col] Notation'''
         if isinstance(value, str):
             return gspread.utils.a1_to_rowcol(value)
@@ -330,7 +374,7 @@ class Spreadclient:
             raise TypeError(f"Invalid Input <{value}> not A1 Notation or [row,col]")
 
     @requirements_exists('*')
-    def delete_rows(self, rows: Union[int, list[int], tuple[int,int]]) -> None:
+    def delete_rows(self, rows: int | list[int] | tuple[int,int]) -> None:
         '''Delete (not clear) a row(s) from the sheet'''
         # Row uses Pythonic Indexing
         if isinstance(rows, int):
@@ -341,7 +385,7 @@ class Spreadclient:
         self.listed = self.sheet.get_all_values()
 
     @requirements_exists('*')
-    def delete_columns(self, cols: Union[int, list[int], tuple[int,int]]) -> None:
+    def delete_columns(self, cols: int | list[int] | tuple[int,int]) -> None:
         '''Delete (not clear) a column from the sheet'''
         # Col uses Pythonic Indexing
         if isinstance(cols, int):

@@ -12,6 +12,7 @@ docs/popper.min.js
 src/GSpreadPlus/__init__.py
 src/GSpreadPlus/errors.py
 src/GSpreadPlus/gspreadplus.py
+src/GSpreadPlus/types.py
 src/GSpreadPlus.egg-info/PKG-INFO
 src/GSpreadPlus.egg-info/SOURCES.txt
 src/GSpreadPlus.egg-info/dependency_links.txt

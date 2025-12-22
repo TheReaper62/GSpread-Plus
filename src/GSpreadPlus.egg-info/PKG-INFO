@@ -25,14 +25,16 @@ License: MIT License
         OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
         SOFTWARE.
         
-Keywords: Google Spreadsheets,Sheets,Sheetsv4,Python 3+,google-spreadsheets,spreadsheets
+Project-URL: Homepage, https://github.com/TheReaper62/GSpread-Plus
+Project-URL: Documentation, https://thereaper62.github.io/GSpread-Plus/documentation
+Keywords: Google Spreadsheets,Sheets,Sheetsv4,google-spreadsheets
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: gspread==6.2.0
-Requires-Dist: oauth2client==4.1.3
+Requires-Dist: gspread>=6.2.0
+Requires-Dist: oauth2client>=4.1.3
 Dynamic: license-file
 
 # GSpreadPlus - Google Spreadsheets GSpreadPlus
