@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: GSpreadPlus
-Version: 0.5.0
+Version: 0.5.1
 Summary: A high-level wrapper library for Google Sheets API v4
 Author-email: FishballNoodles <joelkhorxw@gmail.com>
 License: MIT License

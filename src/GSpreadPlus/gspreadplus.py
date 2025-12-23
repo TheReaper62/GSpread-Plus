@@ -12,7 +12,7 @@ from typing import Optional, Callable, Any, Literal
 import gspread
 
 from .errors import IdentificationError, SetupError
-from .types import SheetOrientation, RowColNotation
+from .types import SheetOrientation
 
 __all__ = (
     'Spreadclient',
