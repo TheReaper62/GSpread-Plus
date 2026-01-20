@@ -117,28 +117,90 @@ License: MIT License</p>
 <p>The base GSpreadPlus Client to interact with Google Sheets</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.commit_new_column">
-<span class="sig-name descname"><span class="pre">commit_new_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.commit_new_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.commit_new_column" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">commit_new_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Cell</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.commit_new_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.commit_new_column" title="Link to this definition"></a></dt>
+<dd><p>Parameters:
+- values</p>
+<blockquote>
+<div><p>Either a list, tuple or dictonary
+A list would be updated in the given order
+A dict would be updated based on the header of the column that corresponds with each key</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>offset</dt><dd><p>The number of columns to skip from the left before placing the data
+For by headers method(dict), these columns will not be checked</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>refresh</dt><dd><p>The nature of this method defaults this parameter to True</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.commit_new_multiple_rows">
-<span class="sig-name descname"><span class="pre">commit_new_multiple_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.commit_new_multiple_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.commit_new_multiple_rows" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">commit_new_multiple_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Cell</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.commit_new_multiple_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.commit_new_multiple_rows" title="Link to this definition"></a></dt>
+<dd><p>Parameters:
+- values</p>
+<blockquote>
+<div><p>A list of either a list, tuple or dictonary
+A list would be updated in the given order
+A dict would be updated based on the header of the column that corresponds with each key</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>offset</dt><dd><p>The number of columns to skip from the left before placing the data
+For by headers method(dict), these columns will not be checked</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>refresh</dt><dd><p>The nature of this method defaults this parameter to True</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.commit_new_row">
-<span class="sig-name descname"><span class="pre">commit_new_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.commit_new_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.commit_new_row" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">commit_new_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Cell</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.commit_new_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.commit_new_row" title="Link to this definition"></a></dt>
+<dd><p>Parameters:
+- values</p>
+<blockquote>
+<div><p>Either a list, tuple or dictonary
+A list would be updated in the given order
+A dict would be updated based on the header of the column that corresponds with each key</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>offset</dt><dd><p>The number of columns to skip from the left before placing the data
+For by headers method(dict), these columns will not be checked</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>refresh</dt><dd><p>The nature of this method defaults this parameter to True</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.connect_document">
-<span class="sig-name descname"><span class="pre">connect_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.connect_document"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.connect_document" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">connect_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.connect_document"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.connect_document" title="Link to this definition"></a></dt>
+<dd><p>Connect to a Google Sheets Document by key, name or url</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.connect_sheet">
-<span class="sig-name descname"><span class="pre">connect_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.connect_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.connect_sheet" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">connect_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Sheet1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">orientation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'vertical'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.connect_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.connect_sheet" title="Link to this definition"></a></dt>
+<dd><p>Connect to sheet within the connected document by name or index</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.convert_notation">
@@ -148,58 +210,69 @@ License: MIT License</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.delete_columns">
-<span class="sig-name descname"><span class="pre">delete_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.delete_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.delete_columns" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">delete_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.delete_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.delete_columns" title="Link to this definition"></a></dt>
+<dd><p>Delete (not clear) a column from the sheet</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.delete_rows">
-<span class="sig-name descname"><span class="pre">delete_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.delete_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.delete_rows" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">delete_rows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.delete_rows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.delete_rows" title="Link to this definition"></a></dt>
+<dd><p>Delete (not clear) a row(s) from the sheet</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.get_block_by_id">
-<span class="sig-name descname"><span class="pre">get_block_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_block_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_block_by_id" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_block_by_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_block_by_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_block_by_id" title="Link to this definition"></a></dt>
+<dd><p>Get a block of data by its identifier</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.get_column_by_row">
-<span class="sig-name descname"><span class="pre">get_column_by_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_column_by_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_column_by_row" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_column_by_row</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">row</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_column_by_row"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_column_by_row" title="Link to this definition"></a></dt>
+<dd><p>Get the first column that matches the value in the specified row</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.get_dime_by_header">
-<span class="sig-name descname"><span class="pre">get_dime_by_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_dime_by_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_dime_by_header" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_dime_by_header</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_dime_by_header"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_dime_by_header" title="Link to this definition"></a></dt>
+<dd><p>Get the first row/column that matches the value in the specified header</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.get_header_index">
-<span class="sig-name descname"><span class="pre">get_header_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_header_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_header_index" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_header_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">header</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_header_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_header_index" title="Link to this definition"></a></dt>
+<dd><p>Get the index of the specified header</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.get_row_by_column">
-<span class="sig-name descname"><span class="pre">get_row_by_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_row_by_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_row_by_column" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_row_by_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_row_by_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_row_by_column" title="Link to this definition"></a></dt>
+<dd><p>Get the first row that matches the value in the specified column</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.get_rows_by_func">
-<span class="sig-name descname"><span class="pre">get_rows_by_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_rows_by_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_rows_by_func" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">get_rows_by_func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.get_rows_by_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.get_rows_by_func" title="Link to this definition"></a></dt>
+<dd><p>Get all rows that match the condition specified in the function</p>
+</dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.headers">
 <span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">headers</span></span><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.headers" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Get the headers considering orientation and header depth</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.refresh_sheet">
-<span class="sig-name descname"><span class="pre">refresh_sheet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.refresh_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.refresh_sheet" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">refresh_sheet</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.refresh_sheet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.refresh_sheet" title="Link to this definition"></a></dt>
+<dd><p>Update local cache of changes and fetch latest data from sheet</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GSpreadPlus.gspreadplus.Spreadclient.update_horizontal_entry">
-<span class="sig-name descname"><span class="pre">update_horizontal_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.update_horizontal_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.update_horizontal_entry" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<span class="sig-name descname"><span class="pre">update_horizontal_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primary_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GSpreadPlus/gspreadplus.html#Spreadclient.update_horizontal_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GSpreadPlus.gspreadplus.Spreadclient.update_horizontal_entry" title="Link to this definition"></a></dt>
+<dd><p>Updates a row (in a vertical data) based on the primary key provided</p>
+</dd></dl>
 
 </dd></dl>
 

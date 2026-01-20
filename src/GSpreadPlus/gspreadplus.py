@@ -1,13 +1,14 @@
-'''
+"""
 GSpreadPlus: A GSpread Wrapper of a Google Sheets API Wrapper
 Description:
 This module provides a high-level interface for interacting with Google Sheets as a database
 Author: Joel Khor
 License: MIT License
-'''
+"""
 
 from __future__ import annotations
 from typing import Optional, Callable, Any, Literal
+from functools import wraps
 
 import gspread
 
@@ -19,8 +20,9 @@ __all__ = (
 )
 
 def requirements_exists(*requirements):
-    '''Decorator to check if object has requirements'''
+    """Decorator to check if object has requirements"""
     def decorator(func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             nonlocal requirements
             if requirements[0] == '*':
@@ -36,7 +38,7 @@ def requirements_exists(*requirements):
     return decorator
 
 class Spreadclient:
-    '''The base GSpreadPlus Client to interact with Google Sheets'''
+    """The base GSpreadPlus Client to interact with Google Sheets"""
     def __init__(self, credentials: str | dict[str,str]):
         if isinstance(credentials,str):     # Name of Credentials File (.json)
             self.client = gspread.service_account(filename = credentials)
@@ -59,7 +61,7 @@ class Spreadclient:
 
     @requirements_exists('client')
     def connect_document(self, identifier):
-        '''Connect to a Google Sheets Document by key, name or url'''
+        """Connect to a Google Sheets Document by key, name or url"""
         methods = [self.client.open_by_key,self.client.open,self.client.open_by_url]
         for method in methods:
             self.document = method(identifier)
@@ -72,7 +74,7 @@ class Spreadclient:
 
         self.listed = None
         self.verlisted = None
-        self.blocklisted = None 
+        self.blocklisted = None
         self.sheet = None
         self.commits = []
         self.orientation = 'vertical'
@@ -86,7 +88,7 @@ class Spreadclient:
         header_depth: int=1,
         block_width: int=0
     ) -> None:
-        '''Connect to sheet within the connected document by name or index'''
+        """Connect to sheet within the connected document by name or index"""
         if isinstance(identifier,str):
             self.sheet = self.document.worksheet(identifier)
             identifier = f"Name '{identifier}'"
@@ -117,7 +119,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def refresh_sheet(self):
-        '''Update local cache of changes and fetch latest data from sheet'''
+        """Update local cache of changes and fetch latest data from sheet"""
         if len(self.commits) > 0:
             self.sheet.update_cells(self.commits)
             self.commits = []
@@ -128,7 +130,7 @@ class Spreadclient:
     def get_row_by_column(
         self, value: str | int, column: str | int=0, refresh: bool=False
     ) -> list[Any]:
-        '''Get the first row that matches the value in the specified column'''
+        """Get the first row that matches the value in the specified column"""
         if refresh:
             self.refresh_sheet()
         # Pythonic Indexing
@@ -145,7 +147,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def get_rows_by_func(self, function: Callable, refresh: bool=False) -> list[Any]:
-        '''Get all rows that match the condition specified in the function'''
+        """Get all rows that match the condition specified in the function"""
         if refresh:
             self.refresh_sheet()
         match = []
@@ -158,7 +160,7 @@ class Spreadclient:
     def get_column_by_row(
         self, value: str | int, row: int=0, refresh: bool=False
     ) -> list[Any]:
-        '''Get the first column that matches the value in the specified row'''
+        """Get the first column that matches the value in the specified row"""
         if refresh:
             self.refresh_sheet()
         # Pythonic Indexing
@@ -172,7 +174,7 @@ class Spreadclient:
     def get_dime_by_header(
         self, value: str | int, header: str | int, refresh: bool=False
     ) -> Optional[list[Any]]:
-        '''Get the first row/column that matches the value in the specified header'''
+        """Get the first row/column that matches the value in the specified header"""
         if refresh:
             self.refresh_sheet()
         index = self.get_header_index(header)
@@ -188,7 +190,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def get_block_by_id(self, identifier: str | int) -> list[list[Any]]:
-        '''Get a block of data by its identifier'''
+        """Get a block of data by its identifier"""
         if self.block_width == 0:
             raise SetupError("Block Width is not set, cannot get block by ID")
         if isinstance(identifier, str):
@@ -215,7 +217,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def get_header_index(self, header: str | int, refresh: bool = False) -> int:
-        '''Get the index of the specified header'''
+        """Get the index of the specified header"""
         if refresh:
             self.refresh_sheet()
         if header in self.headers:
@@ -231,7 +233,7 @@ class Spreadclient:
     def commit_new_row(
         self, values: list | tuple | dict, offset: int=0, refresh: bool=True
     ) -> list[gspread.cell.Cell]:
-        '''
+        """
         Parameters:
         - values
             Either a list, tuple or dictonary
@@ -242,7 +244,7 @@ class Spreadclient:
             For by headers method(dict), these columns will not be checked
         - refresh
             The nature of this method defaults this parameter to True
-        '''
+        """
         if refresh:
             self.refresh_sheet()
         new_row_no = len(self.listed)
@@ -268,7 +270,7 @@ class Spreadclient:
     def commit_new_multiple_rows(
         self, values: list[list], offset: int=0, refresh: bool=True
     ) -> list[gspread.cell.Cell]:
-        '''
+        """
         Parameters:
         - values
             A list of either a list, tuple or dictonary
@@ -279,7 +281,7 @@ class Spreadclient:
             For by headers method(dict), these columns will not be checked
         - refresh
             The nature of this method defaults this parameter to True
-        '''
+        """
         if refresh:
             self.refresh_sheet()
         new_row_no = len(self.listed)
@@ -315,7 +317,7 @@ class Spreadclient:
     def commit_new_column(
         self, values: list | tuple | dict, offset: int=0, refresh: bool=True
     ) -> list[gspread.cell.Cell]:
-        '''
+        """
         Parameters:
         - values
             Either a list, tuple or dictonary
@@ -326,7 +328,7 @@ class Spreadclient:
             For by headers method(dict), these columns will not be checked
         - refresh
             The nature of this method defaults this parameter to True
-        '''
+        """
         if refresh:
             self.refresh_sheet()
         new_col_no = len(self.listed[0])
@@ -350,7 +352,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def update_horizontal_entry(self, data: dict[str,Any], primary_key: str, refresh: bool=False):
-        '''Updates a row (in a vertical data) based on the primary key provided'''
+        """Updates a row (in a vertical data) based on the primary key provided"""
         assert isinstance(data,dict), f"data should be type <'dict'> not {type(data)}"
         active_row = self.get_row_by_column(
             data[primary_key], self.get_header_index(primary_key,refresh=refresh), refresh=refresh
@@ -363,9 +365,9 @@ class Spreadclient:
                 self.commits.append(gspread.cell.Cell(
                     col=self.get_header_index(k,refresh=refresh)+1,row=active_row_index+1,value=v
                 ))
-    
+
     def convert_notation(self, value: str | tuple | list):
-        '''Util to convert between A1 Notation and [row,col] Notation'''
+        """Util to convert between A1 Notation and [row,col] Notation"""
         if isinstance(value, str):
             return gspread.utils.a1_to_rowcol(value)
         elif isinstance(value, list) or isinstance(value, tuple):
@@ -375,7 +377,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def delete_rows(self, rows: int | list[int] | tuple[int,int]) -> None:
-        '''Delete (not clear) a row(s) from the sheet'''
+        """Delete (not clear) a row(s) from the sheet"""
         # Row uses Pythonic Indexing
         if isinstance(rows, int):
             rows += 1
@@ -386,7 +388,7 @@ class Spreadclient:
 
     @requirements_exists('*')
     def delete_columns(self, cols: int | list[int] | tuple[int,int]) -> None:
-        '''Delete (not clear) a column from the sheet'''
+        """Delete (not clear) a column from the sheet"""
         # Col uses Pythonic Indexing
         if isinstance(cols, int):
             cols += 1
@@ -398,7 +400,7 @@ class Spreadclient:
     @property
     @requirements_exists('*')
     def headers(self):
-        '''Get the headers considering orientation and header depth'''
+        """Get the headers considering orientation and header depth"""
         if self.listed is not None:
             if getattr(self, 'orientation') == 'vertical':
                 return self.listed[self.header_depth-1]
