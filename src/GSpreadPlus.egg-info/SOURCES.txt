@@ -3,12 +3,6 @@ LICENSE
 README.md
 pyproject.toml
 requirements.txt
-docs/bootstrap.bundle.min.js
-docs/bootstrap.min.css
-docs/document.css
-docs/document.js
-docs/documentation.html
-docs/popper.min.js
 src/GSpreadPlus/__init__.py
 src/GSpreadPlus/errors.py
 src/GSpreadPlus/gspreadplus.py

@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: GSpreadPlus
-Version: 0.5.1
+Version: 0.5.2
 Summary: A high-level wrapper library for Google Sheets API v4
 Author-email: FishballNoodles <joelkhorxw@gmail.com>
 License: MIT License
@@ -30,7 +30,7 @@ Project-URL: Documentation, https://thereaper62.github.io/GSpread-Plus/documenta
 Keywords: Google Spreadsheets,Sheets,Sheetsv4,google-spreadsheets
 Classifier: Programming Language :: Python :: 3
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.8
+Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: gspread>=6.2.1

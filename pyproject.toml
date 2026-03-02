@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "GSpreadPlus"
-version = "0.5.1"
+version = "0.5.2"
 license = { file = "LICENSE" }
 authors = [
     {name = "FishballNoodles", email = "joelkhorxw@gmail.com"},
